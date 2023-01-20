@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+th:fragment="content"
+<body>
+
+<div th:each="product : ${Products}" >
+    <div class="card" style="width: 18rem;">
+        <img  th:src="'/GaldonMarioMiAli/Imagenes/'+${product.getProductPicture()}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title" th:text="${product.getProductName()}"></h5>
+            <p class="card-text" th:text="${product.getProductPrice()}" ></p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <button th:unless="${session.tipoUsuario} == 'admin'" th:text="Editar"></button>
+            <button th:unless="${session.tipoUsuario} == 'admin'" th:text="Borrar"></button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
