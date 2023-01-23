@@ -1,0 +1,26 @@
+<div th:replace="fragments/Cabecera :: cabecera"></div>
+<body>
+
+<div th:replace="fragments/Plantilla :: content"></div>
+<body>
+
+  <div class="col-xs-8 col-md-8">
+    <h3>
+      <a href="/GaldonMarioMiAli/Producto" class="btn btn-primary"><span class="glyphicon glyphicon-list"></span> Lista</a>
+    </h3>
+    <h2 th:text="${product.getProductName()}"></h2>
+    <h2><img th:src="'/GaldonMarioMiAli/Imagenes/'+${product.getProductPicture()}" width="200" /></h2>
+    <dl class="list">
+      <dt>Stock</dt>
+      <dd th:text="${product.getProductStock()}"></dd>
+      <dt>Precio</dt>
+      <dd th:text="${product.getProductPrice()}"></dd>
+    </dl>
+    <form action="/GaldonMarioMiAli/delete">
+      <input type="hidden" name="id" th:value="${product.getProductId()}" />
+      <h2><input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Estas seguro?');" />
+        <a th:href="@{'/GaldonMarioMiAli/edit/' + ${product.getProductId()}}" class="btn btn-warning">Editar</a></h2>
+    </form>
+  </div>
+
+</body>

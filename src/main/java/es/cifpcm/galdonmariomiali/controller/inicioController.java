@@ -3,20 +3,19 @@ package es.cifpcm.galdonmariomiali.controller;
 
 import es.cifpcm.galdonmariomiali.dao.MunicipioOfferRepository;
 import es.cifpcm.galdonmariomiali.dao.ProductOfferRepository;
+import es.cifpcm.galdonmariomiali.model.Municipio;
 import es.cifpcm.galdonmariomiali.model.Productoffer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 @Controller
 public class inicioController {
@@ -42,7 +41,7 @@ public class inicioController {
         return "create";
     }
 
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public String save(@RequestParam String prodName,@RequestParam int Municipio, @RequestParam float prodPrice, @RequestParam Integer prodStock, @RequestParam("prodImage") MultipartFile prodImage) {
         Productoffer product = new Productoffer();
         Path rootLocation = Paths.get("src/main/resources/static/Imagenes");
@@ -51,9 +50,14 @@ public class inicioController {
 
         } catch ( IOException e) {
             e.printStackTrace();
+            return "redirect:/error";
+        }
+        Optional<es.cifpcm.galdonmariomiali.model.Municipio> municipio =municipioOfferRepository.findById(Long.valueOf(Municipio));
+        if(product==null ||prodName.trim().isEmpty()||prodImage.isEmpty()||municipio==null||prodStock<0||prodPrice<0){
+            return "redirect:/error";
         }
         String nombreProducto =prodImage.getOriginalFilename();
-        product.setProductId((int) productOfferRepository.count());
+        product.setProductId((int) productOfferRepository.count()+1);
         product.setProductName(prodName);
         product.setProductPrice(prodPrice);
         product.setProductPicture(nombreProducto);
@@ -66,22 +70,43 @@ public class inicioController {
 
     @RequestMapping("/show/{id}")
     public String show(@PathVariable Long id, Model model) {
-        model.addAttribute("product", productOfferRepository.findById(id).orElse(null));
-        return "show";
+        Productoffer producto= productOfferRepository.findById(id).orElse(null);
+        if (producto !=null) {
+            model.addAttribute("product", producto);
+            return "show";
+        }
+        return "redirect:/error";
     }
 
     @RequestMapping("/delete")
     public String delete(@RequestParam Long id) {
         Productoffer product = productOfferRepository.findById(id).orElse(null);
-        productOfferRepository.delete(product);
+        if(product!=null) {
 
-        return "redirect:/product";
+            try {
+                productOfferRepository.delete(product);
+
+
+                Path archivo = Paths.get("src/main/resources/static/Imagenes"+product.getProductPrice());
+                Files.delete(archivo);
+                return "redirect:/Producto";
+            } catch (IOException e) {
+                return "redirect:/error";
+            }
+
+        }
+        return "redirect:/error";
+
     }
 
     @RequestMapping("/edit/{id}")
     public String edit(@PathVariable Long id, Model model) {
-        model.addAttribute("product", productOfferRepository.findById(id).orElse(null));
-        return "edit";
+        Productoffer product = productOfferRepository.findById(id).orElse(null);
+        if(product!=null) {
+            model.addAttribute("product", product);
+            return "edit";
+        }
+        return "redirect:/error";
     }
 
     @RequestMapping("/update")
@@ -93,6 +118,11 @@ public class inicioController {
 
         } catch ( IOException e) {
             e.printStackTrace();
+            return "redirect:/error";
+        }
+        //Optional<es.cifpcm.galdonmariomiali.model.Municipio> municipio =municipioOfferRepository.findById(Municipio);
+        if(product==null ||prodName.trim().isEmpty()||prodImage.isEmpty()||Municipio<0||prodStock<0||prodPrice<0){
+            return "redirect:/error";
         }
         String nombreProducto =prodImage.getOriginalFilename();
         product.setProductId((int) productOfferRepository.count());
