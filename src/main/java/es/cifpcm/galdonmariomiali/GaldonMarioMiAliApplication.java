@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class GaldonMarioMiAliApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GaldonMarioMiAliApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(GaldonMarioMiAliApplication.class, args);
+    }
 
 }
