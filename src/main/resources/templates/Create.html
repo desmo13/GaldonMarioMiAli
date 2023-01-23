@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <main>
+        <div class="py-5 text-center">
+            <img class="d-block mx-auto mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+            <h2>Checkout form</h2>
+            <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
+        </div>
+
+        <div class="row g-5">
+
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3">Creador del Producto</h4>
+                <form class="needs-validation" novalidate>
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label for="prodName" class="form-label">Nombre del Producto</label>
+                            <input type="text" class="form-control" id="prodName" placeholder="" name="prodName" required>
+                            <div class="invalid-feedback">
+                                Este campo es Importate y requerido
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="prodPrice" class="form-label">Precio</label>
+                            <input type="number" class="form-control" id="prodPrice" placeholder="" name="prodPrice" value="" required>
+                            <div class="invalid-feedback">
+                                El Precio Es requerido
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="prodStock" class="form-label">Stock</label>
+                            <input type="number" class="form-control" id="prodStock" placeholder="" name="prodStock" value="" required>
+                            <div class="invalid-feedback">
+                                El stock es requerido
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="Municipio"  class="form-label">Municipios</label>
+                            <select class="form-select" id="Municipio" name="Municipio" th:each="municipio : ${Municipios}" required>
+                                <option th:value="${municipio.getIdMunicipio}" th:text="municipio.getNombre()"></option>
+
+                            </select>
+                            <div class="invalid-feedback">
+                                Por favor seleciona un Municipio
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="prodImage" class="form-label">Address</label>
+                            <input type="file" class="form-control" id="prodImage" name="prodImage"  required>
+                            <div class="invalid-feedback">
+                                La imgagen es obligatoria
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+
+                    <button class="w-100 btn btn-primary btn-lg" type="submit">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
