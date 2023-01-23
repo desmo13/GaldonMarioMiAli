@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<div th:replace="fragments/Cabecera :: cabecera"></div>
 <body>
+
+<div th:replace="fragments/Plantilla :: content"></div>
 <div class="container">
     <main>
         <div class="py-5 text-center">
@@ -45,8 +42,11 @@
 
                         <div class="col-12">
                             <label for="Municipio"  class="form-label">Municipios</label>
-                            <select class="form-select" id="Municipio" name="Municipio" th:each="municipio : ${Municipios}" required>
-                                <option th:value="${municipio.getIdMunicipio}" th:text="municipio.getNombre()"></option>
+                            <select class="form-select" id="Municipio" name="Municipio"  required>
+                                <div th:each="municipio : ${Municipios}">
+                                    <option th:value="${municipio.getIdMunicipio()}" th:text="${municipio.getNombre}"></option>
+                                </div>
+
 
                             </select>
                             <div class="invalid-feedback">
@@ -72,5 +72,6 @@
             </div>
         </div>
     </main>
+</div>
 </body>
 </html>
