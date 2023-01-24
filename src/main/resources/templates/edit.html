@@ -1,0 +1,42 @@
+
+<div th:replace="fragments/Cabecera :: cabecera"></div>
+<body>
+
+<div th:replace="fragments/Plantilla :: content"></div>
+<div class="col-xs-8 col-md-8">
+    <h3>
+        <a href="/Producto" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-list"></span> Lista Productos</a>
+    </h3>
+    <h2>Edit Product</h2>
+    <form action="/GaldonMarioMiAli/update" enctype="multipart/form-data" method="post">
+        <div class="form-group">
+            <label for="prodName">Nombre Producto</label>
+            <input type="text" id="prodName" class="form-control" name="prodName" th:value="${product.getProductName()}" />
+        </div>
+        <div class="form-group">
+            <label for="prodPrice">Precio</label>
+            <textarea class="form-control" id="prodPrice" name="prodPrice" cols="60" rows="3" th:text="${product.getProductPrice()}"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="prodStock">Stock</label>
+            <input type="number"  id="prodStock" class="form-control" name="prodStock" th:value="${product.getProductStock()}" />
+        </div>
+        <div class="form-group">
+            <label for="imagen">Producto</label>
+            <input type="file" id="imagen" class="form-control" name="prodImage"  />
+        </div>
+        <div class="form-group">
+            <label for="Municipio">Producto</label>
+            <select class="form-select" id="Municipio" name="Municipio"  required>
+                <div th:each="municipio : ${Municipios}">
+                    <option th:value="${municipio.getIdMunicipio()}" th:text="${municipio.getNombre}" th:selected="${product.getIdMunicipio()==municipio.getIdMunicipio()}"></option>
+                </div>
+            </select>
+        </div>
+        <input type="hidden" name="id" th:value="${product.getProductId()}" />
+        <button type="submit" class="btn btn-success">Guardar</button>
+    </form>
+</div>
+
+</body>
+

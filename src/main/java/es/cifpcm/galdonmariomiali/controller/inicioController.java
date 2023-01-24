@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -87,7 +88,7 @@ public class inicioController {
                 productOfferRepository.delete(product);
 
 
-                Path archivo = Paths.get("src/main/resources/static/Imagenes"+product.getProductPrice());
+                Path archivo = Paths.get("src/main/resources/static/Imagenes"+product.getProductPicture());
                 Files.delete(archivo);
                 return "redirect:/Producto";
             } catch (IOException e) {
@@ -102,8 +103,10 @@ public class inicioController {
     @RequestMapping("/edit/{id}")
     public String edit(@PathVariable Long id, Model model) {
         Productoffer product = productOfferRepository.findById(id).orElse(null);
-        if(product!=null) {
+        List<Municipio> municipio = municipioOfferRepository.findAll();
+        if(product!=null||municipio.size()>0) {
             model.addAttribute("product", product);
+            model.addAttribute("Municipios",municipio);
             return "edit";
         }
         return "redirect:/error";
@@ -114,18 +117,23 @@ public class inicioController {
         Productoffer product = productOfferRepository.findById(id).orElse(null);
         Path rootLocation = Paths.get("src/main/resources/static/Imagenes");
         try {
-             Files.copy(prodImage.getInputStream(), rootLocation.resolve(prodImage.getOriginalFilename()));
+            if(!prodImage.isEmpty()){
+                Path archivo = Paths.get("src/main/resources/static/Imagenes"+product.getProductPicture());
+                Files.delete(archivo);
+                Files.copy(prodImage.getInputStream(), rootLocation.resolve(prodImage.getOriginalFilename()));
+            }
+
 
         } catch ( IOException e) {
             e.printStackTrace();
             return "redirect:/error";
         }
         //Optional<es.cifpcm.galdonmariomiali.model.Municipio> municipio =municipioOfferRepository.findById(Municipio);
-        if(product==null ||prodName.trim().isEmpty()||prodImage.isEmpty()||Municipio<0||prodStock<0||prodPrice<0){
+        if(product==null ||prodName.trim().isEmpty()||Municipio<0||prodStock<0||prodPrice<0){
             return "redirect:/error";
         }
         String nombreProducto =prodImage.getOriginalFilename();
-        product.setProductId((int) productOfferRepository.count());
+        product.setProductId(Math.toIntExact(id));
         product.setProductName(prodName);
         product.setProductPrice(prodPrice);
         product.setProductPicture(nombreProducto);

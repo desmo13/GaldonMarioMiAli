@@ -1,0 +1,29 @@
+
+<div th:replace="fragments/Cabecera :: cabecera"></div>
+<body>
+
+<div th:replace="fragments/Plantilla :: content"></div>
+
+
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Usuario</th>
+      <th scope="col">Contraseña</th>
+      <th scope="col">Opciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+      <th scope="row" th:text="${user.getUserId()}">1</th>
+      <td scope="row" th:text="${user.getUserName()}"></td>
+      <td scope="row" th:text="${user.getPassword()}"></td>
+      <td></td>
+    </tr>
+
+    </tbody>
+  </table>
+</div>
+</body>
