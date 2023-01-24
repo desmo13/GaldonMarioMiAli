@@ -1,0 +1,46 @@
+<div th:replace="fragments/Cabecera :: cabecera"></div>
+<body>
+
+<div th:replace="fragments/Plantilla :: content"></div>
+<div class="container">
+    <main>
+        <div class="py-5 text-center">
+            <img class="d-block mx-auto mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+            <h2>Creador de Usuarios</h2>
+            <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
+        </div>
+
+        <div class="row g-5">
+
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3">Creador de Usuarios</h4>
+                <form class="needs-validation" action="/GaldonMarioMiAli/UserSave" method="post"  novalidate>
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label for="userName" class="form-label">Nombre del usuario</label>
+                            <input type="text" class="form-control" id="userName" placeholder="" name="userName" required>
+                            <div class="invalid-feedback">
+                                Este campo es Importate y requerido
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="userPass" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="userPass" placeholder="" name="userPass" value="" required>
+                            <div class="invalid-feedback">
+                                La contraseña es requerida
+                            </div>
+                        </div>
+
+
+
+
+
+                    <button class="w-100 btn btn-primary btn-lg" type="submit">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

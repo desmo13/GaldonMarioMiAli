@@ -1,0 +1,26 @@
+<div th:replace="fragments/Cabecera :: cabecera"></div>
+<body>
+
+<div th:replace="fragments/Plantilla :: content"></div>
+<body>
+
+  <div class="col-xs-8 col-md-8">
+    <h3>
+      <a href="/GaldonMarioMiAli/Users" class="btn btn-primary"><span class="glyphicon glyphicon-list"></span> Lista de Usuarios</a>
+    </h3>
+    <h2 th:text="${user.getUserName()}"></h2>
+
+    <dl class="list">
+      <dt>Usuario</dt>
+      <dd th:text="${user.getUserName()}"></dd>
+      <dt>Contraseña</dt>
+      <dd th:text="${user.getPassword()}"></dd>
+    </dl>
+    <form action="/GaldonMarioMiAli/UserDelete">
+      <input type="hidden" name="id" th:value="${user.getUserId()}" />
+      <h2><input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Estas seguro?');" />
+        <a th:href="@{'/GaldonMarioMiAli/UserEdit/' + ${user.getUserId()}}" class="btn btn-warning">Editar</a></h2>
+    </form>
+  </div>
+
+</body>
