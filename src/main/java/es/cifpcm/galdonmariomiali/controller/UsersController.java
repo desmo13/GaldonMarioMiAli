@@ -97,7 +97,7 @@ public class UsersController {
         User user= userRepository.findById(id).orElse(null);
         if (user !=null) {
             model.addAttribute("user", user);
-            return "Ususarios/userShow";
+            return "Usuarios/userShow";
         }
         return "redirect:/error";
     }
