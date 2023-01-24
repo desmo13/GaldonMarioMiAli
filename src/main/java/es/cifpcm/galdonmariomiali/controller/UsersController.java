@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,13 +55,14 @@ public class UsersController {
         user.setPassword(getSHA256(userPass));
 
 
-        return "redirect:/show/" + user.getUserId();
+        return "redirect:/UserShow/" + user.getUserId();
     }
     @RequestMapping("/UserDelete")
     public String delete(@RequestParam Long id) {
         User user = userRepository.findById(id).orElse(null);
         if(user!=null) {
             userRepository.delete(user);
+           // userRepository.delete(user);
 
 
 

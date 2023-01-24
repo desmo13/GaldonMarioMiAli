@@ -19,7 +19,7 @@
     <form action="/GaldonMarioMiAli/UserDelete">
       <input type="hidden" name="id" th:value="${user.getUserId()}" />
       <h2><input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Estas seguro?');" />
-        <a th:href="@{'/GaldonMarioMiAli/UserEdit/' + ${user.getUserId()}}" class="btn btn-warning">Editar</a></h2>
+        <a th:href="@{'/UserEdit/' + ${user.getUserId()}}" class="btn btn-warning">Editar</a></h2>
     </form>
   </div>
 
