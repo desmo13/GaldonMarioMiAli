@@ -3,7 +3,7 @@
 
 <div th:replace="fragments/Plantilla :: content"></div>
 
-<form>
+<form method="post" action="/GaldonMarioMiAli/Producto">
     <label for="provincia"  class="form-label">Provincia</label>
     <select class="form-select" id="provincia" name="idProvincia"  required>
         <div th:each="provincia : ${Provincias}">
@@ -16,6 +16,7 @@
             <option  th:value="${municipio.getIdMunicipio()}" th:text="${municipio.getNombre}" ></option>
         </div>
     </select>
+    <button type="submit">Aplicar filtro</button>
 </form>
 
 <div style="display: flex;flex-direction: row;flex-wrap: wrap;justify-content: center">

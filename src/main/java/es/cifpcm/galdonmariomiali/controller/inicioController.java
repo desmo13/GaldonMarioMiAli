@@ -43,6 +43,13 @@ public class inicioController {
         model.addAttribute("Products",productOfferRepository.findAll());
         return "Producto";
     }
+    @PostMapping("/Producto")
+    public String postProducts(@RequestParam Long municipioId,Model model){
+        model.addAttribute("Provincias",provinciaRepository.findAll());
+        model.addAttribute("Municipios",municipioOfferRepository.findAll());
+        model.addAttribute("Products",productOfferRepository.findAllByIdMunicipio(Math.toIntExact(municipioId)));
+        return "Producto";
+    }
     @RequestMapping("/obtenerMunicipio")
     public ResponseEntity getProductsPots(@RequestParam Long municipioId, Model model){
 
