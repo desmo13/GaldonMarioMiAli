@@ -3,6 +3,7 @@ package es.cifpcm.galdonmariomiali.controller;
 
 import es.cifpcm.galdonmariomiali.dao.MunicipioOfferRepository;
 import es.cifpcm.galdonmariomiali.dao.ProductOfferRepository;
+import es.cifpcm.galdonmariomiali.dao.ProvinciaRepository;
 import es.cifpcm.galdonmariomiali.model.Municipio;
 import es.cifpcm.galdonmariomiali.model.Productoffer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class inicioController {
     ProductOfferRepository productOfferRepository;
     @Autowired
     MunicipioOfferRepository municipioOfferRepository;
+    @Autowired
+    ProvinciaRepository provinciaRepository;
 
     @GetMapping("/")
     public String getRequest() {
@@ -32,10 +35,17 @@ public class inicioController {
 
     @GetMapping("/Producto")
     public String getProducts(Model model){
+        model.addAttribute("Provincias",provinciaRepository.findAll());
+        model.addAttribute("Municipios",municipioOfferRepository.findAll());
         model.addAttribute("Products",productOfferRepository.findAll());
         return "Producto";
     }
-
+    @PostMapping("/Producto")
+    public String getProductsPots(@RequestParam Long municipioId,Model model){
+        model.addAttribute("Municipios",municipioOfferRepository.findAll());
+        model.addAttribute("Products",productOfferRepository.findProductoffersByIdMunicipio(Math.toIntExact(municipioId)));
+        return "Producto";
+    }
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("Municipios",municipioOfferRepository.findAll());

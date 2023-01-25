@@ -3,18 +3,34 @@
 
 <div th:replace="fragments/Plantilla :: content"></div>
 
+<form>
+    <label for="provincia"  class="form-label">Provincia</label>
+    <select class="form-select" id="provincia" name="idProvincia"  required>
+        <div th:each="provincia : ${Provincias}">
+            <option th:value="${provincia.getIdProvincia()}" th:text="${provincia.getNombre()}"></option>
+        </div>
+    </select>
+    <label for="Municipio"  class="form-label">Municipio</label>
+    <select class="form-select" id="Municipio" name="municipioId"  required>
+        <div th:each="municipio : ${Municipios}">
+            <option th:class="'p'+${municipio.getIdProvincia()}" th:value="${municipio.getIdMunicipio()}" th:text="${municipio.getNombre}" hidden></option>
+        </div>
+    </select>
+</form>
 
-
-<div th:each="product : ${Products}" style="display: flex;flex-direction: row;flex-wrap: wrap">
-    <div class="card" style="width: 18rem;">
-        <img  th:src="'/GaldonMarioMiAli/Imagenes/'+${product.getProductPicture()}" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title" th:text="${product.getProductName()}"></h5>
-            <p class="card-text" th:text="${product.getProductPrice()}" ></p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-            <button th:unless="${session.tipoUsuario} == 'admin'" th:text="Editar"></button>
-            <button th:unless="${session.tipoUsuario} == 'admin'" th:text="Borrar"></button>
+<div style="display: flex;flex-direction: row;flex-wrap: wrap;justify-content: center">
+    <div th:each="product : ${Products}" >
+        <div class="card" style="width: 18rem;">
+            <img  th:src="'/GaldonMarioMiAli/Imagenes/'+${product.getProductPicture()}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${product.getProductName()}"></h5>
+                <p class="card-text" th:text="${product.getProductPrice()}" ></p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <button th:unless="${session.tipoUsuario} == 'admin'" th:text="Editar"></button>
+                <button th:unless="${session.tipoUsuario} == 'admin'" th:text="Borrar"></button>
+            </div>
         </div>
     </div>
 </div>
+<script src="js/selector.js"></script>
 </body>
