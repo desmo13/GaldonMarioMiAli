@@ -1,12 +1,16 @@
 package es.cifpcm.galdonmariomiali.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import es.cifpcm.galdonmariomiali.dao.MunicipioOfferRepository;
 import es.cifpcm.galdonmariomiali.dao.ProductOfferRepository;
 import es.cifpcm.galdonmariomiali.dao.ProvinciaRepository;
 import es.cifpcm.galdonmariomiali.model.Municipio;
 import es.cifpcm.galdonmariomiali.model.Productoffer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,11 +44,19 @@ public class inicioController {
         model.addAttribute("Products",productOfferRepository.findAll());
         return "Producto";
     }
-    @PostMapping("/Producto2")
-    public String getProductsPots(@RequestParam Long municipioId,Model model){
-        model.addAttribute("Municipios",municipioOfferRepository.findAll());
-        model.addAttribute("Products",productOfferRepository.findProductoffersByIdMunicipio(Math.toIntExact(municipioId)));
-        return "Producto";
+    @RequestMapping("/obtenerMunicipio")
+    public ResponseEntity getProductsPots(@RequestParam Long municipioId, Model model){
+
+
+        // agregar objetos a la lista
+        ObjectMapper mapper = new ObjectMapper();
+        String json = null;
+        try {
+            json = mapper.writeValueAsString(productOfferRepository.findProductoffersByIdMunicipio(Math.toIntExact(municipioId)));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return new ResponseEntity<>(json, HttpStatus.OK);
     }
     @GetMapping("/create")
     public String create(Model model) {
