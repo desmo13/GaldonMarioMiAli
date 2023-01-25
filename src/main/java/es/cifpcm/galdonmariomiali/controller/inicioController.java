@@ -1,7 +1,6 @@
 package es.cifpcm.galdonmariomiali.controller;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import es.cifpcm.galdonmariomiali.dao.MunicipioOfferRepository;
 import es.cifpcm.galdonmariomiali.dao.ProductOfferRepository;
@@ -47,15 +46,19 @@ public class inicioController {
     @RequestMapping("/obtenerMunicipio")
     public ResponseEntity getProductsPots(@RequestParam Long municipioId, Model model){
 
-        Municipio muni =municipioOfferRepository.findMunicipioByIdProvincia(Math.toIntExact(municipioId));
+        //List<Municipio> muni =
         // agregar objetos a la lista
         ObjectMapper mapper = new ObjectMapper();
         String json = null;
         try {
+            List muni=municipioOfferRepository.findAllByIdProvincia(Math.toIntExact(municipioId));
             json = mapper.writeValueAsString(muni);
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+
+
         return new ResponseEntity<>(json, HttpStatus.OK);
     }
     @GetMapping("/create")
