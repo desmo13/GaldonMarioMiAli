@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface MunicipioOfferRepository extends JpaRepository<Municipio, Long> {
     //Municipio findById(int municipio);
+    Municipio findMunicipioByIdProvincia(Integer idMunicipio);
 }

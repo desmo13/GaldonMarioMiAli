@@ -47,12 +47,12 @@ public class inicioController {
     @RequestMapping("/obtenerMunicipio")
     public ResponseEntity getProductsPots(@RequestParam Long municipioId, Model model){
 
-
+        Municipio muni =municipioOfferRepository.findMunicipioByIdProvincia(Math.toIntExact(municipioId));
         // agregar objetos a la lista
         ObjectMapper mapper = new ObjectMapper();
         String json = null;
         try {
-            json = mapper.writeValueAsString(productOfferRepository.findProductoffersByIdMunicipio(Math.toIntExact(municipioId)));
+            json = mapper.writeValueAsString(muni);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
