@@ -40,7 +40,7 @@ public class inicioController {
         model.addAttribute("Products",productOfferRepository.findAll());
         return "Producto";
     }
-    @PostMapping("/Producto")
+    @PostMapping("/Producto2")
     public String getProductsPots(@RequestParam Long municipioId,Model model){
         model.addAttribute("Municipios",municipioOfferRepository.findAll());
         model.addAttribute("Products",productOfferRepository.findProductoffersByIdMunicipio(Math.toIntExact(municipioId)));

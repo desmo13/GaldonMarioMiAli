@@ -7,5 +7,5 @@ function mostrarMunicipio(e){
     //document.getElementById("Municipio").querySelectorAll(".p"+e.target.value).forEach(ele=>{
      //   ele.removeAttribute("hidden");
    // });
-    fetch("http://localhost:8080/GaldonMarioMiAli/Producto",{method:"Post",body: {municipioId:e.target.value}}).then(e=>console.log(e));
+    fetch("http://localhost:8080/GaldonMarioMiAli/Producto2",{method:"Post",body: {municipioId:e.target.value}}).then(e=>console.log(e));
 }
