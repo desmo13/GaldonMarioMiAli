@@ -13,7 +13,7 @@
     <label for="Municipio"  class="form-label">Municipio</label>
     <select class="form-select" id="Municipio" name="municipioId"  required>
         <div th:each="municipio : ${Municipios}">
-            <option th:class="'p'+${municipio.getIdProvincia()}" th:value="${municipio.getIdMunicipio()}" th:text="${municipio.getNombre}" hidden></option>
+            <option  th:value="${municipio.getIdMunicipio()}" th:text="${municipio.getNombre}" ></option>
         </div>
     </select>
 </form>
