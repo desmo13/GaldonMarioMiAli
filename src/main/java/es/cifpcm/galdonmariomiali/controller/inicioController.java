@@ -7,6 +7,7 @@ import es.cifpcm.galdonmariomiali.dao.ProductOfferRepository;
 import es.cifpcm.galdonmariomiali.dao.ProvinciaRepository;
 import es.cifpcm.galdonmariomiali.model.Municipio;
 import es.cifpcm.galdonmariomiali.model.Productoffer;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,10 +38,12 @@ public class inicioController {
 }
 
     @GetMapping("/Producto")
-    public String getProducts(Model model){
+    public String getProducts(Model model, HttpSession session){
         model.addAttribute("Provincias",provinciaRepository.findAll());
         model.addAttribute("Municipios",municipioOfferRepository.findAll());
         model.addAttribute("Products",productOfferRepository.findAll());
+        model.addAttribute("carrito",session.getAttribute("carrito"));
+        System.out.println(session.getAttribute("carrito"));
         return "Producto";
     }
     @PostMapping("/Producto")

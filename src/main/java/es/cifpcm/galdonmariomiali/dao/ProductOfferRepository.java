@@ -9,5 +9,6 @@ import java.util.ArrayList;
 public interface ProductOfferRepository extends JpaRepository<Productoffer, Long> {
 
     //Integer findMunibyID(final int Id);
+    Productoffer findByProductId(int id);
     ArrayList findAllByIdMunicipio(int idMunicipio);
 }
