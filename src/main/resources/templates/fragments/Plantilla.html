@@ -32,9 +32,12 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <div th:if="${carrito!= null}" >
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                            🛒
-                        </button>
+                        <div th:unless="${ #lists.isEmpty(carrito)}">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                🛒
+                            </button>
+                        </div>
+
                     </div>
 
                 </li>
