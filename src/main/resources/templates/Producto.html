@@ -1,27 +1,8 @@
 <div th:replace="fragments/Cabecera :: cabecera"></div>
 <body>
 
-<div th:replace="fragments/Plantilla :: content"></div>
-<p>
-    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
-        🛒
-    </button>
-</p>
-<div style="min-height: 120px;">
-    <div class="collapse collapse-horizontal" id="collapseWidthExample">
-        <div class="card card-body" style="width: 300px;">
-            <div th:each="product : ${carrito}" >
-                <div class="card" style="width: 18rem;">
-                    <img  th:src="'/GaldonMarioMiAli/Imagenes/'+${product.getProductPicture()}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="${product.getProductName()}"></h5>
-                        <p class="card-text" th:text="${product.getProductPrice()}" ></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<div th:replace="fragments/Plantilla :: content(carrito=${carrito})" ></div>
+
 <form method="post" action="/GaldonMarioMiAli/Producto">
     <label for="provincia"  class="form-label">Provincia</label>
     <select class="form-select" id="provincia" name="idProvincia"  required>

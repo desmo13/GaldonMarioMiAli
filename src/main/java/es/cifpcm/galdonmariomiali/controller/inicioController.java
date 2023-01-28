@@ -33,7 +33,8 @@ public class inicioController {
     ProvinciaRepository provinciaRepository;
 
     @GetMapping("/")
-    public String getRequest() {
+    public String getRequest(Model model, HttpSession session) {
+        model.addAttribute("carrito",session.getAttribute("carrito"));
         return "Inicio";
 }
 
