@@ -37,5 +37,17 @@ public class CarritoController {
 
         return "redirect:/Producto";
     }
+    @RequestMapping("/deleteCarrito/{id}")
+    public String deleteCarrito(@PathVariable Long id, HttpSession sessionl){
+        Productoffer producto = productOfferRepository.findByProductId(Math.toIntExact((id)));
+        for (int i=0;i<carrito.size();i++) {
 
+            if(carrito.get(i).getProductId()==producto.getProductId()){
+                carrito.remove(i);
+                break;
+            }
+        }
+
+        return "redirect:/Producto";
+    }
 }
