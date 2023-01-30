@@ -6,6 +6,7 @@ import es.cifpcm.galdonmariomiali.dao.MunicipioOfferRepository;
 import es.cifpcm.galdonmariomiali.dao.ProductOfferRepository;
 import es.cifpcm.galdonmariomiali.dao.ProvinciaRepository;
 import es.cifpcm.galdonmariomiali.model.Municipio;
+import es.cifpcm.galdonmariomiali.model.Pedido;
 import es.cifpcm.galdonmariomiali.model.Productoffer;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

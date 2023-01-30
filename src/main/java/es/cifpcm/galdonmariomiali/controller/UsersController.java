@@ -6,6 +6,7 @@ import es.cifpcm.galdonmariomiali.dao.UserRepository;
 import es.cifpcm.galdonmariomiali.model.Municipio;
 import es.cifpcm.galdonmariomiali.model.Productoffer;
 import es.cifpcm.galdonmariomiali.model.User;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -102,6 +103,17 @@ public class UsersController {
             return "Usuarios/userShow";
         }
         return "redirect:/error";
+    }
+
+    @PostMapping("/UserLogin")
+    public String login(HttpSession session,@RequestParam String userName, @RequestParam String userPass){
+        User usuario = userRepository.findUserByUserName(userName);
+        User contra = userRepository.findFirstByPasswordOrPasswordFalse(userPass);
+        if(usuario==null|| contra==null){
+            return "Usuarios/Login";
+        }
+        session.setAttribute("usuario",usuario.getUserId());
+        return "redirect:/";
     }
     private String getSHA256(String data) {
         return Hashing.sha256().hashString(data, StandardCharsets.UTF_8).toString();
