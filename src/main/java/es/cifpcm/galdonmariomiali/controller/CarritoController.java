@@ -29,24 +29,18 @@ public class CarritoController {
     ProductOfferRepository productOfferRepository;
     @Autowired
     PedidoRepository pedidoRepository;
-    private static ArrayList<Productos> carrito = new ArrayList<Productos>();
+    //private static ArrayList<Productoffer> carrito = new ArrayList<Productoffer>();
 
     @RequestMapping("/addCarrito/{id}")
     public String addCarrito(@PathVariable Long id, HttpSession sessionl){
+            ArrayList<Productoffer> carrito = new ArrayList<Productoffer>();
+            if(sessionl.getAttribute("carrito")!=null){
+                carrito= (ArrayList<Productoffer>) sessionl.getAttribute("carrito");
 
+            }
 
             Productoffer producto=productOfferRepository.findByProductId(Math.toIntExact(id));
-            Productos prodCarrito =new Productos();
-            prodCarrito.setProductId(producto.getProductId());
-            prodCarrito.setProductName(producto.getProductName());
-            prodCarrito.setIdUsuario((Integer) sessionl.getAttribute("usuario"));
-            prodCarrito.setIdMunicipio(prodCarrito.getIdMunicipio());
 
-           // Pedido nuevoPedido = new Pedido();
-           // nuevoPedido.setIdProductos(producto.getProductId().toString());
-          //  nuevoPedido.setIdPedido(pedidoRepository.findAll().size());
-          // nuevoPedido.setCantidadDeProductos("1");
-           // nuevoPedido.setPagado(false);
            //nuevoPedido.setIdUsuario();
 
 
