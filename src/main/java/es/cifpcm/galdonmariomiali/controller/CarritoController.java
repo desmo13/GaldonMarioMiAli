@@ -53,6 +53,11 @@ public class CarritoController {
     }
     @RequestMapping("/deleteCarrito/{id}")
     public String deleteCarrito(@PathVariable Long id, HttpSession sessionl){
+        ArrayList<Productoffer> carrito = new ArrayList<Productoffer>();
+        if(sessionl.getAttribute("carrito")!=null){
+            carrito= (ArrayList<Productoffer>) sessionl.getAttribute("carrito");
+
+        }
         Productoffer producto = productOfferRepository.findByProductId(Math.toIntExact((id)));
         for (int i=0;i<carrito.size();i++) {
 
