@@ -1,21 +1,38 @@
 package es.cifpcm.galdonmariomiali.controller;
 
 import com.google.common.hash.Hashing;
+import es.cifpcm.galdonmariomiali.dao.CustommerRepository;
+import es.cifpcm.galdonmariomiali.dao.GroupRepository;
 import es.cifpcm.galdonmariomiali.dao.UserRepository;
+import es.cifpcm.galdonmariomiali.model.Customer;
+import es.cifpcm.galdonmariomiali.model.Group;
 import es.cifpcm.galdonmariomiali.model.User;
+import es.cifpcm.galdonmariomiali.model.UsersGroup;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.relation.Role;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.util.HashSet;
 
 @Controller
 public class UsersController {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    CustommerRepository custommerRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private GroupRepository groupRepository;
 
     @GetMapping("/Users")
     public String getUsers(Model model){
@@ -43,7 +60,7 @@ public class UsersController {
         }
         user.setUserId((short) Math.toIntExact(id));
         user.setUserName(userName);
-        user.setPassword(getSHA256(userPass));
+        user.setPassword(passwordEncoder.encode(userPass));
 
 
         return "redirect:/UserShow/" + user.getUserId();
@@ -79,7 +96,7 @@ public class UsersController {
 
         user.setUserId((short) (userRepository.count()+1));
         user.setUserName(userName);
-        user.setPassword(getSHA256(userPass));
+        user.setPassword(passwordEncoder.encode(userPass));
 
         userRepository.save(user);
 
@@ -94,22 +111,45 @@ public class UsersController {
         }
         return "redirect:/error";
     }
-    @RequestMapping("/GetLogin")
-    public String getLogin(){
-        return "Usuarios/Login";
+    @RequestMapping("/GetRegister")
+    public String getRegistre(){
+        return "Usuarios/Register";
     }
 
-    @PostMapping("/UserLogin")
-    public String login(HttpSession session, @RequestParam String username, @RequestParam String password){
-        User usuario = userRepository.findUserByUserName(username);
-        User contra = userRepository.findFirstByPasswordOrPasswordFalse(getSHA256(password));
-        if(usuario==null|| contra==null){
-            return "Usuarios/Login";
+    @RequestMapping("/PostRegister")
+    public String registre(Model model,@RequestParam String contra, @RequestParam String nombre, @RequestParam String apellido,@RequestParam String telefono,@RequestParam String email,@RequestParam LocalDate nacimiento){
+        Customer cliente = custommerRepository.findCustomerByFirstNameAndLastName(nombre,apellido);
+        if(cliente!=null){
+            model.addAttribute("error","El usuario ya existe");
+            return "Usuarios/Register";
         }
-        session.setAttribute("usuario",usuario.getUserId());
+        if(nombre.isEmpty()||apellido.isEmpty()||telefono.length()!=9||telefono.isEmpty()||email.isEmpty()||nacimiento.toString().isEmpty()){
+            model.addAttribute("error","Reviso los campos todos tienen que estar rellenados y el telefono tiene que ser de 9 digitos");
+            return "Usuarios/Register";
+        }
+        Customer nuevoCliente = new Customer();
+        nuevoCliente.setFirstName(nombre);
+        nuevoCliente.setCustomerId(custommerRepository.findAll().size()+1);
+        nuevoCliente.setLastName(apellido);
+        nuevoCliente.setFechaDeNacimiento(nacimiento);
+        nuevoCliente.setTelefono(telefono);
+        nuevoCliente.setEmail(email);
+
+        User usuario = new User();
+        usuario.setUserId((short) (userRepository.findAll().size()+1));
+        usuario.setUserName(nombre+'.'+apellido);
+        //usuario.setRoles(new Role("cliente",3));
+        usuario.setPassword(passwordEncoder.encode(contra));
+        userRepository.save(usuario);
+
+        UsersGroup grupo = new UsersGroup();
+        grupo.setUserName(nombre+'.'+apellido);
+        grupo.setGroupId(3);
+        groupRepository.save(grupo);
         return "redirect:/";
     }
-    private String getSHA256(String data) {
-        return Hashing.sha256().hashString(data, StandardCharsets.UTF_8).toString();
+    @RequestMapping("/Login")
+    public String login(){
+        return "redirect:/login";
     }
 }
