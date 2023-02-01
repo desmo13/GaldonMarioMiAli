@@ -104,6 +104,10 @@ public class UsersController {
         }
         return "redirect:/error";
     }
+    @RequestMapping("/GetLogin")
+    public String getLogin(){
+        return "Usuarios/Login";
+    }
 
     @PostMapping("/UserLogin")
     public String login(HttpSession session,@RequestParam String userName, @RequestParam String userPass){
