@@ -1,26 +1,16 @@
 package es.cifpcm.galdonmariomiali.controller;
 
 import com.google.common.hash.Hashing;
-import es.cifpcm.galdonmariomiali.dao.ProductOfferRepository;
 import es.cifpcm.galdonmariomiali.dao.UserRepository;
-import es.cifpcm.galdonmariomiali.model.Municipio;
-import es.cifpcm.galdonmariomiali.model.Productoffer;
 import es.cifpcm.galdonmariomiali.model.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class UsersController {
@@ -110,9 +100,9 @@ public class UsersController {
     }
 
     @PostMapping("/UserLogin")
-    public String login(HttpSession session,@RequestParam String userName, @RequestParam String userPass){
-        User usuario = userRepository.findUserByUserName(userName);
-        User contra = userRepository.findFirstByPasswordOrPasswordFalse(userPass);
+    public String login(HttpSession session, @RequestParam String username, @RequestParam String password){
+        User usuario = userRepository.findUserByUserName(username);
+        User contra = userRepository.findFirstByPasswordOrPasswordFalse(getSHA256(password));
         if(usuario==null|| contra==null){
             return "Usuarios/Login";
         }
