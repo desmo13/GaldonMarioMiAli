@@ -32,7 +32,7 @@ public class CarritoController {
     PedidoRepository pedidoRepository;
     //private static ArrayList<Productoffer> carrito = new ArrayList<Productoffer>();
 
-    @PostMapping("/addCarrito/{id}")
+    @RequestMapping("/addCarrito/{id}")
     public String addCarrito(@PathVariable Long id, HttpSession sessionl){
             ArrayList<Productoffer> carrito = new ArrayList<Productoffer>();
             ArrayList<Integer> cantidad= new ArrayList<>();

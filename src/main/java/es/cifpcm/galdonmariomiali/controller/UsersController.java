@@ -121,7 +121,7 @@ public class UsersController {
         return "Usuarios/Register";
     }
 
-    @RequestMapping("/PostRegister")
+    @PostMapping("/PostRegister")
     public String registre(Model model,@RequestParam String contra, @RequestParam String nombre, @RequestParam String apellido,@RequestParam String telefono,@RequestParam String email,@RequestParam LocalDate nacimiento){
         Customer cliente = custommerRepository.findCustomerByFirstNameAndLastName(nombre,apellido);
         if(cliente!=null){
