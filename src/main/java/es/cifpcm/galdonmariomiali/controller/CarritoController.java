@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -31,22 +32,37 @@ public class CarritoController {
     PedidoRepository pedidoRepository;
     //private static ArrayList<Productoffer> carrito = new ArrayList<Productoffer>();
 
-    @RequestMapping("/addCarrito/{id}")
+    @PostMapping("/addCarrito/{id}")
     public String addCarrito(@PathVariable Long id, HttpSession sessionl){
             ArrayList<Productoffer> carrito = new ArrayList<Productoffer>();
+            ArrayList<Integer> cantidad= new ArrayList<>();
             if(sessionl.getAttribute("carrito")!=null){
                 carrito= (ArrayList<Productoffer>) sessionl.getAttribute("carrito");
 
             }
+        if (sessionl.getAttribute("cantidad") != null) {
+            cantidad= (ArrayList<Integer>) sessionl.getAttribute("cantidad");
+        }
 
             Productoffer producto=productOfferRepository.findByProductId(Math.toIntExact(id));
-
-           //nuevoPedido.setIdUsuario();
-
-
             carrito.add(producto);
-            sessionl.setAttribute("carrito",carrito);
+           //nuevoPedido.setIdUsuario();
+            if(carrito.size()>0){
+                int rep=0;
+                for(int i=0;i<carrito.size();i++){
+                    if(carrito.get(i).getProductId().equals(id)){
+                        rep++;
+                    }
+                    if(rep>1){
+                        cantidad.add(i,rep-1);
+                        carrito.remove(i);
+                    }
+                }
+            }
 
+
+            sessionl.setAttribute("carrito",carrito);
+            sessionl.setAttribute("cantida",cantidad);
 
 
         return "redirect:/Producto";
@@ -54,15 +70,25 @@ public class CarritoController {
     @RequestMapping("/deleteCarrito/{id}")
     public String deleteCarrito(@PathVariable Long id, HttpSession sessionl){
         ArrayList<Productoffer> carrito = new ArrayList<Productoffer>();
+        ArrayList<Integer> cantidad= new ArrayList<>();
         if(sessionl.getAttribute("carrito")!=null){
             carrito= (ArrayList<Productoffer>) sessionl.getAttribute("carrito");
 
+        }
+        if (sessionl.getAttribute("cantidad") != null) {
+            cantidad= (ArrayList<Integer>) sessionl.getAttribute("cantidad");
         }
         Productoffer producto = productOfferRepository.findByProductId(Math.toIntExact((id)));
         for (int i=0;i<carrito.size();i++) {
 
             if(carrito.get(i).getProductId()==producto.getProductId()){
-                carrito.remove(i);
+                if(cantidad.get(i)>1){
+                    int can= cantidad.get(i);
+                    cantidad.add(i,can-1);
+                }else{
+                    carrito.remove(i);
+                }
+
                 break;
             }
         }

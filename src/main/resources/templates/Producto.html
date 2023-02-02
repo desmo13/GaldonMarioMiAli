@@ -27,8 +27,8 @@
                 <h5 class="card-title" th:text="${product.getProductName()}"></h5>
                 <p class="card-text" th:text="${product.getProductPrice()}" ></p>
                 <a th:href="@{'/addCarrito/' + ${product.getProductId()}}" class="btn btn-primary">Añadir al carrito</a>
-                <button th:unless="${session.tipoUsuario} == 'admin'" th:text="Editar"></button>
-                <button th:unless="${session.tipoUsuario} == 'admin'" th:text="Borrar"></button>
+                <button  th:text="Editar"></button>
+                <button th:text="Borrar"></button>
             </div>
         </div>
     </div>

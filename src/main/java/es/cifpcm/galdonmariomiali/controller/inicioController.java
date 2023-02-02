@@ -37,6 +37,7 @@ public class inicioController {
     @GetMapping("/")
     public String getRequest(Model model, HttpSession session) {
         model.addAttribute("carrito",session.getAttribute("carrito"));
+        model.addAttribute("cantidad",session.getAttribute("cantidad"));
         return "Inicio";
 }
 
@@ -46,7 +47,9 @@ public class inicioController {
         model.addAttribute("Municipios",municipioOfferRepository.findAll());
         model.addAttribute("Products",productOfferRepository.findAll());
         model.addAttribute("carrito",session.getAttribute("carrito"));
+        model.addAttribute("cantidad",session.getAttribute("cantidad"));
         System.out.println(session.getAttribute("carrito"));
+        System.out.println(session.getAttribute("cantidad"));
         return "Producto";
     }
     @PostMapping("/Producto")

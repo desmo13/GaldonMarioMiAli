@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand" href="/GaldonMarioMiAli/">
-                <img src="/GaldonMarioMiAli/Imagenes/logo.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
+                <img src="/GaldonMarioMiAli/Imagenes/logo.png" alt="" width="60" height="60" class="d-inline-block align-text-center">
                 ManoloExpress
             </a>
             <a class="navbar-brand" href=""></a>
@@ -58,12 +58,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div th:each="product : ${carrito}" >
+                    <div th:each="product,index : ${carrito}" >
                         <div class="card" style="width: 18rem;">
                             <img  th:src="'/GaldonMarioMiAli/Imagenes/'+${product.getProductPicture()}" class="card-img-left" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title" th:text="${product.getProductName()}"></h5>
                                 <p class="card-text" th:text="${product.getProductPrice()+'$'}" ></p>
+                                <p class="card-text" th:text="${cantidad[index]}" ></p>
                             </div>
                             <div class="card-footer">
                                 <a th:href="'/GaldonMarioMiAli/deleteCarrito/'+${product.getProductId()}">X</a>

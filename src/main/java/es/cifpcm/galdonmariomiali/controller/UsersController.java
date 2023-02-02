@@ -65,11 +65,16 @@ public class UsersController {
 
         return "redirect:/UserShow/" + user.getUserId();
     }
-    @RequestMapping("/UserDelete")
+    @RequestMapping("/UserDelete/{id}")
     public String delete(@RequestParam Long id) {
         User user = userRepository.findById(id).orElse(null);
         if(user!=null) {
-            userRepository.delete(user);
+            try{
+                userRepository.delete(user);
+            }catch(Exception ex) {
+                return "redirect:/error";
+            }
+
            // userRepository.delete(user);
 
 

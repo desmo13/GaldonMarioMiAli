@@ -20,7 +20,11 @@
       <th scope="row" th:text="${user.getUserId()}">1</th>
       <td scope="row" th:text="${user.getUserName()}"></td>
       <td scope="row" th:text="${user.getPassword()}"></td>
-      <td></td>
+      <td>
+        <a  th:href="@{'/UserShow/' + ${user.getUserId()}}">Mostrar</a>
+        <a th:href="@{'/UserEdit/' + ${user.getUserId()}}">Editar</a>
+        <a th:href="@{'/UserDelete/' + ${user.getUserId()}}">Borrar</a>
+      </td>
     </tr>
 
     </tbody>

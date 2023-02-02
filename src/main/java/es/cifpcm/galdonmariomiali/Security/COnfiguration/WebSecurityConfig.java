@@ -34,9 +34,9 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.authorizeRequests(authorize -> authorize
-                .requestMatchers("/Imagenes/**", "/js/**", "/javascripts/**", "/Producto", "/obtenerMunicipio", "/","/save","/show/**").permitAll()
-                .requestMatchers("/create","/save","/delete","/update").hasRole("gestores")
-                .requestMatchers("/Users","/UsersEdit/**","/UserUpdate","/UserDelete","/Usercreate","/UserSave","/GetRegister","/PostRegister").hasRole("administradoress")
+                .requestMatchers("/deleteCarrito/**","/addCarrito/**","/Imagenes/**", "/js/**", "/javascripts/**", "/Producto", "/obtenerMunicipio", "/","/show/**","/GetRegister","/PostRegister" ).permitAll()
+                .requestMatchers("/create","/save","/delete","/update","/save").hasRole("gestores")
+                .requestMatchers("/Users","/UsersEdit/**","/UserUpdate","/UserDelete","/Usercreate","/UserSave").hasRole("administradoress")
                 .anyRequest().authenticated()
         );
         http.formLogin().permitAll();
