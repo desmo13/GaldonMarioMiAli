@@ -3,32 +3,32 @@
 
 <div th:replace="fragments/Plantilla :: content(carrito=${carrito})" ></div>
 
-<form method="post" action="/GaldonMarioMiAli/Producto">
+<form method="post" action="/GaldonMarioMiAli/Producto" style="margin-left: 15px;">
     <label for="provincia"  class="form-label">Provincia</label>
-    <select class="form-select" id="provincia" name="idProvincia"  required>
+    <select class="form-select" id="provincia" name="idProvincia"  required style="width: 25%;">
         <div th:each="provincia : ${Provincias}">
             <option th:value="${provincia.getIdProvincia()}" th:text="${provincia.getNombre()}"></option>
         </div>
     </select>
     <label for="Municipio"  class="form-label">Municipio</label>
-    <select class="form-select" id="Municipio" name="municipioId"  required>
+    <select class="form-select" id="Municipio" name="municipioId"  required style="width: 25%;">
         <div th:each="municipio : ${Municipios}">
             <option  th:value="${municipio.getIdMunicipio()}" th:text="${municipio.getNombre}" ></option>
         </div>
     </select>
-    <button type="submit">Aplicar filtro</button>
+    <button type="submit" class="btn btn-info" style="margin-top: 5px;">Aplicar filtro</button>
 </form>
 
 <div style="display: flex;flex-direction: row;flex-wrap: wrap;justify-content: center">
     <div th:each="product : ${Products}" >
-        <div class="card" style="width: 18rem;">
-            <img  th:src="'/GaldonMarioMiAli/Imagenes/'+${product.getProductPicture()}" class="card-img-top" alt="...">
+        <div class="card" style="width: 18rem ;height: 24rem;margin: 25px;">
+            <img  th:src="'/GaldonMarioMiAli/Imagenes/'+${product.getProductPicture()}" class="card-img-top" alt="..." style="height: 50%;">
             <div class="card-body">
                 <h5 class="card-title" th:text="${product.getProductName()}"></h5>
                 <p class="card-text" th:text="${product.getProductPrice()}" ></p>
                 <a th:href="@{'/addCarrito/' + ${product.getProductId()}}" class="btn btn-primary">Añadir al carrito</a>
-                <button  th:text="Editar"></button>
-                <button th:text="Borrar"></button>
+                <button class="btn btn-warning" th:text="Editar"></button>
+                <button class="btn btn-danger" th:text="Borrar"></button>
             </div>
         </div>
     </div>
