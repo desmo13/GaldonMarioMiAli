@@ -16,7 +16,7 @@
       <dt>Precio</dt>
       <dd th:text="${product.getProductPrice()}"></dd>
     </dl>
-    <form action="/GaldonMarioMiAli/delete">
+    <form action="/GaldonMarioMiAli/delete" sec:authorize="hasAnyAuthority('gestores')">
       <input type="hidden" name="id" th:value="${product.getProductId()}" />
       <h2><input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Estas seguro?');" />
         <a th:href="@{'/edit/' + ${product.getProductId()}}" class="btn btn-warning">Editar</a></h2>

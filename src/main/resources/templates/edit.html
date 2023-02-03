@@ -3,7 +3,8 @@
 <body>
 
 <div th:replace="fragments/Plantilla :: content"></div>
-<div class="col-xs-8 col-md-8">
+
+<div class="col-xs-8 col-md-8" sec:authorize="hasAnyAuthority('gestores')">
     <h3>
         <a href="/GaldonMarioMiAli/Producto" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-list"></span> Lista Productos</a>
     </h3>
@@ -37,6 +38,8 @@
         <button type="submit" class="btn btn-success">Guardar</button>
     </form>
 </div>
-
+<div sec:authorize="hasAnyAuthority('administradores','clientes')">
+    <div th:replace="fragments/error :: error(error='Error no eres gestor')"></div>
+</div>
 </body>
 

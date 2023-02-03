@@ -129,7 +129,7 @@ public class inicioController {
                 productOfferRepository.delete(product);
 
 
-                Path archivo = Paths.get("src/main/resources/static/Imagenes"+product.getProductPicture());
+                Path archivo = Paths.get("src/main/resources/static/Imagenes/"+product.getProductPicture());
                 Files.delete(archivo);
                 return "redirect:/Producto";
             } catch (IOException e) {
@@ -137,7 +137,7 @@ public class inicioController {
             }
 
         }
-        return "redirect:/error";
+        return "redirect:/";
 
     }
 
@@ -174,12 +174,16 @@ public class inicioController {
             return "redirect:/error";
         }
         String nombreProducto =prodImage.getOriginalFilename();
+        if(nombreProducto.isEmpty()){
+            nombreProducto=product.getProductPicture();
+        }
         product.setProductId(Math.toIntExact(id));
         product.setProductName(prodName);
         product.setProductPrice(prodPrice);
         product.setProductPicture(nombreProducto);
         product.setProductStock(prodStock);
         product.setIdMunicipio(Municipio);
+        productOfferRepository.save(product);
 
         return "redirect:/show/" + product.getProductId();
     }

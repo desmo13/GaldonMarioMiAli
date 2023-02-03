@@ -6,7 +6,7 @@
 
 
 
-  <table class="table">
+  <table sec:authorize="hasAnyAuthority('administradores')" class="table">
     <thead>
     <tr>
       <th scope="col">#</th>
@@ -29,5 +29,9 @@
 
     </tbody>
   </table>
+
+<div sec:authorize="hasAnyAuthority('gestores','clientes')">
+  <div th:replace="fragments/error :: error(error='Error no eres Administrador')"></div>
+</div>
 </div>
 </body>

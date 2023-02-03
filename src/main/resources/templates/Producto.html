@@ -18,7 +18,9 @@
     </select>
     <button type="submit" class="btn btn-info" style="margin-top: 5px;">Aplicar filtro</button>
 </form>
-
+<div sec:authorize="hasAnyAuthority('gestores', 'ADMIN')">
+    <a href="/GaldonMarioMiAli/create">Crear un Nuevo Producto</a>
+</div>
 <div style="display: flex;flex-direction: row;flex-wrap: wrap;justify-content: center">
     <div th:each="product : ${Products}" >
         <div class="card" style="width: 18rem ;height: 24rem;margin: 25px;">
@@ -27,8 +29,13 @@
                 <h5 class="card-title" th:text="${product.getProductName()}"></h5>
                 <p class="card-text" th:text="${product.getProductPrice()}" ></p>
                 <a th:href="@{'/addCarrito/' + ${product.getProductId()}}" class="btn btn-primary">Añadir al carrito</a>
-                <button class="btn btn-warning" th:text="Editar"></button>
-                <button class="btn btn-danger" th:text="Borrar"></button>
+                <div sec:authorize="hasAnyAuthority('gestores')">
+                    <a class="btn btn-warning" th:href="@{'/edit/' + ${product.getProductId()}}"  th:text="Editar"></a>
+
+
+                </div>
+                <a class="btn btn-primary" th:href="@{'/show/' + ${product.getProductId()}}"th:text="Mostrar"></a>
+
             </div>
         </div>
     </div>

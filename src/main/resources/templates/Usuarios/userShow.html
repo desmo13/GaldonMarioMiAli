@@ -4,7 +4,7 @@
 <div th:replace="fragments/Plantilla :: content"></div>
 <body>
 
-  <div class="col-xs-8 col-md-8">
+  <div sec:authorize="hasAnyAuthority('administradores')" class="col-xs-8 col-md-8">
     <h3>
       <a href="/GaldonMarioMiAli/Users" class="btn btn-primary"><span class="glyphicon glyphicon-list"></span> Lista de Usuarios</a>
     </h3>
@@ -21,6 +21,9 @@
       <h2><input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Estas seguro?');" />
         <a th:href="@{'/UserEdit/' + ${user.getUserId()}}" class="btn btn-warning">Editar</a></h2>
     </form>
+  </div>
+  <div sec:authorize="hasAnyAuthority('gestores','clientes')">
+    <div th:replace="fragments/error :: error(error='Error no eres Administrador')"></div>
   </div>
 
 </body>

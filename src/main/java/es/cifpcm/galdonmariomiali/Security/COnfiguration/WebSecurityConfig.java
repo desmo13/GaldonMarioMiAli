@@ -33,13 +33,15 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests(authorize -> authorize
-                .requestMatchers("/deleteCarrito/**","/addCarrito/**","/Imagenes/**", "/js/**", "/javascripts/**", "/Producto", "/obtenerMunicipio", "/","/show/**","/GetRegister","/PostRegister" ).permitAll()
-                .requestMatchers("/create","/save","/delete","/update","/save").hasRole("gestores")
-                .requestMatchers("/Users","/UsersEdit/**","/UserUpdate","/UserDelete","/Usercreate","/UserSave").hasRole("administradoress")
+
+        http.authorizeRequests(authorize -> authorize
+                .requestMatchers("/login","/deleteCarrito/**","/addCarrito/**","/Imagenes/**", "/js/**", "/javascripts/**", "/Producto", "/obtenerMunicipio", "/","/show/**","/GetRegister","/PostRegister","/error" ).permitAll()
+                //.requestMatchers("/create","/save","/delete","/update","/save").hasRole("gestores")
+               // .requestMatchers("/Users","/UsersEdit/**","/UserUpdate","/UserDelete","/Usercreate","/UserSave").hasRole("1")
                 .anyRequest().authenticated()
         );
-        http.formLogin().permitAll();
+
+        http.formLogin().loginProcessingUrl("/login").defaultSuccessUrl("/").permitAll().and().csrf().disable();
         return http.build();
     }
 }

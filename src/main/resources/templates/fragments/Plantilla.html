@@ -1,5 +1,4 @@
-
-<div th:fragment="content">
+<div th:fragment="content"  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
     <nav class="navbar navbar-expand-lg bg-body-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="/GaldonMarioMiAli/">
@@ -30,6 +29,22 @@
 
             </div>
             <ul class="navbar-nav ml-auto">
+                <div sec:authorize="isAuthenticated()">
+                    <li>Hola Usuario!!</li>
+                    <li >
+                        <form th:action="@{/logout}" method="post">
+                            <input type="submit" value="Logout" />
+                        </form>
+                    </li>
+                </div>
+                <div sec:authorize="isAnonymous()">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/login}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/GaldonMarioMiAli/GetRegister">Register</a>
+                    </li>
+                </div>
                 <li class="nav-item">
                     <div th:if="${carrito!= null}" >
                         <div th:unless="${ #lists.isEmpty(carrito)}">
@@ -41,12 +56,7 @@
                     </div>
 
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/GaldonMarioMiAli/Login">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/GaldonMarioMiAli/GetRegister">Register</a>
-                </li>
+
             </ul>
         </div>
     </nav>
@@ -58,13 +68,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div th:each="product,index : ${carrito}" >
+                    <div th:each="product : ${carrito}" >
                         <div class="card" style="width: 18rem;">
                             <img  th:src="'/GaldonMarioMiAli/Imagenes/'+${product.getProductPicture()}" class="card-img-left" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title" th:text="${product.getProductName()}"></h5>
                                 <p class="card-text" th:text="${product.getProductPrice()+'$'}" ></p>
-                                <p class="card-text" th:text="${cantidad[index]}" ></p>
+                                <p class="card-text" th:text="${product.getCantida()}" ></p>
                             </div>
                             <div class="card-footer">
                                 <a th:href="'/GaldonMarioMiAli/deleteCarrito/'+${product.getProductId()}">X</a>

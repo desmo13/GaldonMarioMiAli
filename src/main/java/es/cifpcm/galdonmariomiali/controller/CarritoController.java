@@ -5,6 +5,7 @@ import com.sun.jna.WString;
 import es.cifpcm.galdonmariomiali.dao.PedidoRepository;
 import es.cifpcm.galdonmariomiali.dao.ProductOfferRepository;
 import es.cifpcm.galdonmariomiali.model.Pedido;
+import es.cifpcm.galdonmariomiali.model.Producto;
 import es.cifpcm.galdonmariomiali.model.Productoffer;
 import es.cifpcm.galdonmariomiali.model.Productos;
 import jakarta.servlet.http.HttpSession;
@@ -33,64 +34,67 @@ public class CarritoController {
     //private static ArrayList<Productoffer> carrito = new ArrayList<Productoffer>();
 
     @RequestMapping("/addCarrito/{id}")
-    public String addCarrito(@PathVariable Long id, HttpSession sessionl){
-            ArrayList<Productoffer> carrito = new ArrayList<Productoffer>();
-            ArrayList<Integer> cantidad= new ArrayList<>();
+    public String addCarrito(@PathVariable Integer id, HttpSession sessionl){
+            ArrayList<Producto> carrito = new ArrayList<Producto>();
+
             if(sessionl.getAttribute("carrito")!=null){
-                carrito= (ArrayList<Productoffer>) sessionl.getAttribute("carrito");
+                carrito= (ArrayList<Producto>) sessionl.getAttribute("carrito");
 
             }
-        if (sessionl.getAttribute("cantidad") != null) {
-            cantidad= (ArrayList<Integer>) sessionl.getAttribute("cantidad");
-        }
+
 
             Productoffer producto=productOfferRepository.findByProductId(Math.toIntExact(id));
-            carrito.add(producto);
+
            //nuevoPedido.setIdUsuario();
             if(carrito.size()>0){
-                int rep=0;
-                for(int i=0;i<carrito.size();i++){
-                    if(carrito.get(i).getProductId().equals(id)){
-                        rep++;
-                    }
-                    if(rep>1){
-                        cantidad.add(i,rep-1);
-                        carrito.remove(i);
+                Boolean encontrado=false;
+                for (Producto p:carrito
+                     ) {
+                    if(p.getProductId().equals(id)){
+                        p.setCantida(p.getCantida()+1);
+                        encontrado=true;
                     }
                 }
+                if(!encontrado){
+                    Producto newProduct = new Producto(producto.getProductId(), producto.getProductName(), producto.getProductPrice(), producto.getProductPicture(), producto.getIdMunicipio(), producto.getProductStock(), 1);
+                    carrito.add(newProduct);
+                }
+            }else{
+                Producto newProduct = new Producto(producto.getProductId(), producto.getProductName(), producto.getProductPrice(), producto.getProductPicture(), producto.getIdMunicipio(), producto.getProductStock(), 1);
+                 carrito.add(newProduct);
             }
 
 
             sessionl.setAttribute("carrito",carrito);
-            sessionl.setAttribute("cantida",cantidad);
+
 
 
         return "redirect:/Producto";
     }
     @RequestMapping("/deleteCarrito/{id}")
-    public String deleteCarrito(@PathVariable Long id, HttpSession sessionl){
-        ArrayList<Productoffer> carrito = new ArrayList<Productoffer>();
-        ArrayList<Integer> cantidad= new ArrayList<>();
+    public String deleteCarrito(@PathVariable Integer id, HttpSession sessionl){
+        ArrayList<Producto> carrito = new ArrayList<Producto>();
         if(sessionl.getAttribute("carrito")!=null){
-            carrito= (ArrayList<Productoffer>) sessionl.getAttribute("carrito");
+            carrito= (ArrayList<Producto>) sessionl.getAttribute("carrito");
 
         }
-        if (sessionl.getAttribute("cantidad") != null) {
-            cantidad= (ArrayList<Integer>) sessionl.getAttribute("cantidad");
-        }
+
         Productoffer producto = productOfferRepository.findByProductId(Math.toIntExact((id)));
-        for (int i=0;i<carrito.size();i++) {
+        if(carrito.size()>0){
 
-            if(carrito.get(i).getProductId()==producto.getProductId()){
-                if(cantidad.get(i)>1){
-                    int can= cantidad.get(i);
-                    cantidad.add(i,can-1);
-                }else{
-                    carrito.remove(i);
+            for (int i=0;i<carrito.size();i++) {
+                if(carrito.get(i).getProductId().equals(id)){
+
+                    carrito.get(i).setCantida(carrito.get(i).getCantida()-1);
+                    if(carrito.get(i).getCantida()<1){
+                        carrito.remove(i);
+                    }
                 }
-
-                break;
             }
+
+        }else{
+
+            carrito.remove(0);
         }
 
         return "redirect:/Producto";
