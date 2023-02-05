@@ -3,5 +3,24 @@
 <body>
 
 <div th:replace="fragments/Plantilla :: content(carrito=${carrito})"></div>
-<h1>Estas en el perfil</h1>
+<h1 style="text-align: center">Tus pedidos</h1>
+<table sec:authorize="hasAnyAuthority('administradores','gestores','clientes')" class="table">
+    <thead>
+    <tr>
+        <th scope="col">Nº</th>
+        <th scope="col">Nombre de Productos</th>
+        <th scope="col">Cantidades</th>
+        <th scope="col">Fecha de Pedidos</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pedido : ${pedidos}">
+        <th scope="row" th:text="${pedido.getIdPedido()}"></th>
+        <td scope="row" th:text="${pedido.getIdProductos()}"></td>
+        <td scope="row" th:text="${pedido.getCantidadDeProductos()}"></td>
+        <td scope="row" th:text="${pedido.getFecha()}"></td>
+    </tr>
+
+    </tbody>
+</table>
 </body>

@@ -92,7 +92,7 @@ public class inicioController {
 
         } catch ( IOException e) {
             e.printStackTrace();
-            return "redirect:/error";
+            return "redirect:/errorPage";
         }
         Optional<es.cifpcm.galdonmariomiali.model.Municipio> municipio =municipioOfferRepository.findById(Long.valueOf(Municipio));
         if(product==null ||prodName.trim().isEmpty()||prodImage.isEmpty()||municipio==null||prodStock<0||prodPrice<0){
@@ -117,7 +117,7 @@ public class inicioController {
             model.addAttribute("product", producto);
             return "show";
         }
-        return "redirect:/error";
+        return "redirect:/errorPage";
     }
 
     @RequestMapping("/delete")
@@ -133,7 +133,7 @@ public class inicioController {
                 Files.delete(archivo);
                 return "redirect:/Producto";
             } catch (IOException e) {
-                return "redirect:/error";
+                return "redirect:/errorPage";
             }
 
         }
@@ -150,7 +150,7 @@ public class inicioController {
             model.addAttribute("Municipios",municipio);
             return "edit";
         }
-        return "redirect:/error";
+        return "redirect:/errorPage";
     }
 
     @RequestMapping("/update")
@@ -167,11 +167,11 @@ public class inicioController {
 
         } catch ( IOException e) {
             e.printStackTrace();
-            return "redirect:/error";
+            return "redirect:/errorPage";
         }
         //Optional<es.cifpcm.galdonmariomiali.model.Municipio> municipio =municipioOfferRepository.findById(Municipio);
         if(product==null ||prodName.trim().isEmpty()||Municipio<0||prodStock<0||prodPrice<0){
-            return "redirect:/error";
+            return "redirect:/errorPage";
         }
         String nombreProducto =prodImage.getOriginalFilename();
         if(nombreProducto.isEmpty()){

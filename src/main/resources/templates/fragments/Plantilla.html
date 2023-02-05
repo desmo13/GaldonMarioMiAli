@@ -20,11 +20,9 @@
                         <a class="nav-link" href="/GaldonMarioMiAli/Users">Usuarios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Perfil</a>
+                        <a class="nav-link" href="/GaldonMarioMiAli/Perfil">Perfil</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled">Disabled</a>
-                    </li>
+
                 </ul>
 
             </div>
@@ -84,9 +82,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <h3 th:text="'Total: '+${total}"></h3>
+                    <h3 style="text-align: left;" th:text="'Total: '+${total}"></h3>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver a la Tienda</button>
-                    <button type="button" class="btn btn-primary">Comprar</button>
+                    <a href="/GaldonMarioMiAli/Comprar" type="button" class="btn btn-primary">Comprar</a>
                 </div>
             </div>
         </div>

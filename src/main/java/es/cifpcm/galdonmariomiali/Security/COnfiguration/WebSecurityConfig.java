@@ -35,7 +35,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests(authorize -> authorize
-                .requestMatchers("/login","/deleteCarrito/**","/addCarrito/**","/Imagenes/**", "/js/**", "/javascripts/**", "/Producto", "/obtenerMunicipio", "/","/show/**","/GetRegister","/PostRegister","/error" ).permitAll()
+                .requestMatchers("/UserDelete/**","/login","/deleteCarrito/**","/addCarrito/**","/Imagenes/**", "/js/**", "/javascripts/**", "/Producto", "/obtenerMunicipio", "/","/show/**","/GetRegister","/PostRegister","/error","/errorPage" ).permitAll()
                 //.requestMatchers("/create","/save","/delete","/update","/save").hasRole("gestores")
                // .requestMatchers("/Users","/UsersEdit/**","/UserUpdate","/UserDelete","/Usercreate","/UserSave").hasRole("1")
                 .anyRequest().authenticated()

@@ -16,7 +16,7 @@ public class Pedido {
     private String idProductos;
 
     @Column(name = "id_usuario")
-    private Integer idUsuario;
+    private String idUsuario;
 
     @Column(name = "fecha")
     private LocalDate fecha;
@@ -44,11 +44,11 @@ public class Pedido {
         this.idProductos = idProductos;
     }
 
-    public Integer getIdUsuario() {
+    public String getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(Integer idUsuario) {
+    public void setIdUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
     }
 

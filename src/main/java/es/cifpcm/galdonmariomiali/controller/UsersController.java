@@ -46,7 +46,7 @@ public class UsersController {
 
             return "Usuarios/edit";
         }
-        return "redirect:/error";
+        return "redirect:/errorPage";
     }
     @RequestMapping("/UserUpdate")
     public String update(@RequestParam Long id, @RequestParam String userName, @RequestParam String userPass) throws IOException {
@@ -54,23 +54,23 @@ public class UsersController {
 
         //Optional<es.cifpcm.galdonmariomiali.model.Municipio> municipio =municipioOfferRepository.findById(Municipio);
         if(user==null ||userName.trim().isEmpty()||userPass.isEmpty()){
-            return "redirect:/error";
+            return "redirect:/errorPage";
         }
         user.setUserId((short) Math.toIntExact(id));
         user.setUserName(userName);
         user.setPassword(passwordEncoder.encode(userPass));
-
+        userRepository.save(user);
 
         return "redirect:/UserShow/" + user.getUserId();
     }
     @RequestMapping("/UserDelete/{id}")
-    public String delete(@RequestParam Long id) {
-        User user = userRepository.findById(id).orElse(null);
+    public String deleteUser( @PathVariable String id) {
+        User user = userRepository.findById(Long.valueOf(id)).orElse(null);
         if(user!=null) {
             try{
                 userRepository.delete(user);
             }catch(Exception ex) {
-                return "redirect:/error";
+                return "redirect:/errorPage";
             }
 
            // userRepository.delete(user);
@@ -81,7 +81,7 @@ public class UsersController {
             return "redirect:/Users";
 
         }
-        return "redirect:/error";
+        return "redirect:/errorPage";
 
     }
     @GetMapping("/Usercreate")
@@ -94,7 +94,7 @@ public class UsersController {
         User user = new User();
 
         if(user==null ||userName.trim().isEmpty()||userPass.isEmpty()){
-            return "redirect:/error";
+            return "redirect:/errorPage";
         }
 
         user.setUserId((short) (userRepository.count()+1));
@@ -112,7 +112,7 @@ public class UsersController {
             model.addAttribute("user", user);
             return "Usuarios/userShow";
         }
-        return "redirect:/error";
+        return "redirect:/errorPage";
     }
     @RequestMapping("/GetRegister")
     public String getRegistre(){
@@ -121,7 +121,9 @@ public class UsersController {
 
     @RequestMapping("/PostRegister")
     public String registre(Model model,@RequestParam String contra, @RequestParam String nombre, @RequestParam String apellido,@RequestParam String telefono,@RequestParam String email,@RequestParam LocalDate nacimiento){
-       System.out.println("he llegado aqui");
+
+
+
         Customer cliente = custommerRepository.findCustomerByFirstNameAndLastName(nombre,apellido);
         if(cliente!=null){
             model.addAttribute("error","El usuario ya existe");
