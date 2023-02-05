@@ -1,7 +1,7 @@
 <div th:replace="fragments/Cabecera :: cabecera"></div>
 <body>
 
-<div th:replace="fragments/Plantilla :: content(carrito=${carrito})" ></div>
+<div th:replace="fragments/Plantilla :: content(carrito=${carrito}, total=${total})" ></div>
 
 <form method="post" action="/GaldonMarioMiAli/Producto" style="margin-left: 15px;">
     <label for="provincia"  class="form-label">Provincia</label>

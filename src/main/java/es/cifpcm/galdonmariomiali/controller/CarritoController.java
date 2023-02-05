@@ -44,6 +44,10 @@ public class CarritoController {
 
 
             Productoffer producto=productOfferRepository.findByProductId(Math.toIntExact(id));
+            float total =0;
+            if(sessionl.getAttribute("total")!=null){
+                total= (float) sessionl.getAttribute("total");
+            }
 
            //nuevoPedido.setIdUsuario();
             if(carrito.size()>0){
@@ -53,19 +57,23 @@ public class CarritoController {
                     if(p.getProductId().equals(id)){
                         p.setCantida(p.getCantida()+1);
                         encontrado=true;
+                        total+=p.getProductPrice();
                     }
                 }
                 if(!encontrado){
                     Producto newProduct = new Producto(producto.getProductId(), producto.getProductName(), producto.getProductPrice(), producto.getProductPicture(), producto.getIdMunicipio(), producto.getProductStock(), 1);
                     carrito.add(newProduct);
+                    total+=newProduct.getProductPrice();
                 }
             }else{
                 Producto newProduct = new Producto(producto.getProductId(), producto.getProductName(), producto.getProductPrice(), producto.getProductPicture(), producto.getIdMunicipio(), producto.getProductStock(), 1);
                  carrito.add(newProduct);
+                total+=newProduct.getProductPrice();
             }
 
 
             sessionl.setAttribute("carrito",carrito);
+            sessionl.setAttribute("total",total);
 
 
 
@@ -78,7 +86,10 @@ public class CarritoController {
             carrito= (ArrayList<Producto>) sessionl.getAttribute("carrito");
 
         }
-
+        float total =0;
+        if(sessionl.getAttribute("total")!=null){
+            total= (float) sessionl.getAttribute("total");
+        }
         Productoffer producto = productOfferRepository.findByProductId(Math.toIntExact((id)));
         if(carrito.size()>0){
 
@@ -86,17 +97,20 @@ public class CarritoController {
                 if(carrito.get(i).getProductId().equals(id)){
 
                     carrito.get(i).setCantida(carrito.get(i).getCantida()-1);
+                    total-=carrito.get(i).getProductPrice();
                     if(carrito.get(i).getCantida()<1){
+                        //total-=carrito.get(i).getProductPrice();
                         carrito.remove(i);
+
                     }
                 }
             }
 
         }else{
-
+            total-=carrito.get(0).getProductPrice();
             carrito.remove(0);
         }
-
+        sessionl.setAttribute("total",total);
         return "redirect:/Producto";
     }
 }

@@ -12,17 +12,17 @@ public class Pedido {
     private Integer idPedido;
 
     @Lob
-    @Column(name = "idProductos")
+    @Column(name = "id_productos")
     private String idProductos;
 
-    @Column(name = "idUsuario")
+    @Column(name = "id_usuario")
     private Integer idUsuario;
 
     @Column(name = "fecha")
     private LocalDate fecha;
 
     @Lob
-    @Column(name = "cantidadDeProductos")
+    @Column(name = "cantidad_de_productos")
     private String cantidadDeProductos;
 
     @Column(name = "pagado")
